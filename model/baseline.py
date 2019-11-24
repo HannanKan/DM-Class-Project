@@ -3,9 +3,10 @@ import pandas as pd
 from scipy import sparse
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.preprocessing import OneHotEncoder,LabelEncoder
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split,GridSearchCV
 from sklearn import metrics
 import lightgbm as lgb
+import matplotlib.pyplot as plt
 
 one_hot_feature=["LBS","age","carrier","consumptionAbility","education","gender","house","os","ct","marriageStatus","advertiserId","campaignId", "creativeId",
        "adCategoryId", "productId", "productType"]
@@ -72,14 +73,27 @@ def encoding(data):
     
     return train_x,test_x,train_y,test_y,res
 
-def train(train_x,train_y,test_x,res):
+def train(train_x,train_y,test_x,res,show_importance=True):
     clf = lgb.LGBMClassifier(
-        boosting_type="gbdt",num_leaves=31,reg_alpha=0.0,reg_lambda=1,
-        max_depth=-1,n_estimators=1500,objective="binary",
+        boosting_type="gbdt",num_leaves=41,reg_alpha=0.0,reg_lambda=1,
+        max_depth=51,n_estimators=10,objective="binary",
         subsample=0.7,colsample_bytree=0.7,subsample_freq=1,
         learning_rate=0.05,min_child_weight=50,random_state=1024,n_jobs=-1
     )
     clf.fit(train_x,train_y,eval_set=[(train_x,train_y)],eval_metric="auc",early_stopping_rounds=100)
+    return
+    if show_importance:
+        lgb.plot_importance(clf,max_num_features=10) 
+        plt.title("Feature Importances")
+        plt.savefig("feature_importance.png") 
+        booster = clf.booster_
+        importance = booster.feature_importance(importance_type="split")
+        feature_name = booster.feature_name()
+        feature_importance = pd.DataFrame({"feature_name":feature_name,"importance":importance} )
+        feature_importance.to_csv("feature_importance.csv",index=False)
+        plt.close()
+        lgb.plot_metric(clf.evals_result_,metric="auc")
+        plt.savefig("metrics.png")
     res["score"] = clf.predict_proba(test_x)[:,1]
     res["score"] = res["score"].apply(lambda x: float("%.6f" % x))
     res.to_csv("./res.csv", index=False)
@@ -102,13 +116,17 @@ def evaluate(y_true,pred_fn):
     print(round(sum(aucs)/len(aucs),6))
     
 if __name__ == '__main__':
+    import time
+    start = time.time()
     user_fn = "./userFeature.data"
     ad_fn = "adFeature.csv"
     train_fn = "train.csv"
     data = preprocess(user_fn,ad_fn,train_fn)
     train_x,test_x,train_y,test_y,res = encoding(data)
-    # train(train_x,train_y,test_x,res)
-    evaluate(test_y,"./res.csv")
+    train(train_x,train_y,test_x,res,show_importance=False)
+    # evaluate(test_y,"./res.csv")
+    end = time.time()
+    print((end-start)/60.0)
 
     auc = 0.733168
 
