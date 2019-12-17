@@ -75,8 +75,8 @@ def encoding(data):
 
 def train(train_x,train_y,test_x,res,show_importance=True):
     clf = lgb.LGBMClassifier(
-        boosting_type="gbdt",num_leaves=41,reg_alpha=0.0,reg_lambda=1,
-        max_depth=51,n_estimators=10,objective="binary",
+        boosting_type="gbdt",num_leaves=31,reg_alpha=0.0,reg_lambda=1,
+        max_depth=-1,n_estimators=10,objective="binary",
         subsample=0.7,colsample_bytree=0.7,subsample_freq=1,
         learning_rate=0.05,min_child_weight=50,random_state=1024,n_jobs=-1
     )
@@ -129,4 +129,3 @@ if __name__ == '__main__':
     print((end-start)/60.0)
 
     auc = 0.733168
-
