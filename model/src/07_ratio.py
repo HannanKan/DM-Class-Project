@@ -16,7 +16,6 @@ DATA_P_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file
 def abs_path(filename,dir=DATA_DIR):
     return os.path.join(dir,filename)
 
-
 print("Reading...")
 data = pd.read_csv(abs_path('train_test_merge.csv',DATA_P_DIR))
 print('Index...')

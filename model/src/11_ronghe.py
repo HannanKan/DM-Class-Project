@@ -10,7 +10,7 @@ def abs_path(filename,dir=DATA_DIR):
 test_y = pd.read_csv(abs_path('test_y.csv',DATA_P_DIR),header=None)[0].values
 print('test_ypre...')
 test_ypre = pd.DataFrame()
-for i in range(1,5):
+for i in range(1,21):
     col_name = 'model'+str(i)
     test_ypre[col_name] = pd.read_csv(abs_path('test_ypre_'+str(i)+'.csv',DATA_P_DIR),header=None)[0].values
 print('ytest...')
@@ -24,6 +24,7 @@ def searchBest(y1,y2):
 ind = []
 for co in test_ypre.columns:
     ind.append(int(roc_auc_score(test_y,test_ypre[co].values)*1000000))
+
 col_sort_descend = list(pd.Series(test_ypre.columns,index=ind).sort_index(ascending=False).values)
 auc = [(pd.Series(test_ypre.columns,index=ind).sort_index(ascending=False).index[0]).astype(int)/1000000]
 
