@@ -3,6 +3,7 @@
 
 ## 数据集  
 数据集来自2018腾讯广告算法大赛，下载地址为 https://share.weiyun.com/5eBrbpT
+有关数据集的介绍见https://algo.qq.com/public/static/pdf/2018%E8%85%BE%E8%AE%AF%E7%AE%97%E6%B3%95%E5%A4%A7%E8%B5%9B%E5%8F%82%E8%B5%9B%E6%89%8B%E5%86%8C-V4.pdf
 
 ## 代码介绍
 主要代码部分目录如下：  
