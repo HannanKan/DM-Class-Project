@@ -18,7 +18,7 @@ Demo 包括foreground（json语言，demo前端）与endground（Flask框架，d
 .
 ├── demo 展示 
 │   ├── foreground（json语言，demo前端）
-│   └──   endground（Flask框架，demo后端）
+│   └── endground（Flask框架，demo后端）
 │ 
 ├── model
 │   ├── baseline.py（baseline模型代码）
