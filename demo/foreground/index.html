@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<!-- <meta http-equiv="refresh" content="1"> -->
+	<title>demo</title>
+	<style type="text/css">
+		html,
+		body {
+			width: 900px;
+			height: 500px;
+		}
+
+		#adlist {
+			width: 220px;
+			height: 500px;
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			overflow-y: scroll;
+		}
+
+		#showboy {
+			width: 200px;
+			height: 200px;
+			position: absolute;
+			bottom: 30px;
+			left: 450px;
+			background-image: url("showboy.jpg");
+		}
+
+		#userlist {
+			width: 220px;
+			height: 500px;
+			position: absolute;
+			top: 0px;
+			left: 700px;
+			overflow-y: scroll;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="adlist">
+		<table id="adcontent" width="200px">
+			<tr>
+				<th>advertisement</th>
+			</tr>
+		</table>
+	</div>
+	<div id="score" style="left:390px; bottom:135px; position: absolute;">
+	</div>
+	<div id="showboy">
+	</div>
+
+	<div id="userlist">
+		<table id="usercontent" width="200px">
+			<tr>
+				<th>user</th>
+			</tr>
+		</table>
+	</div>
+	<div id="advertisement" style="visibility: hidden;"></div>
+	<div id="user" style="visibility: hidden;"></div>
+	<script src="js/collision.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript">
+		function Getad() {
+			var data = {};
+			$.ajax({
+				type: 'Get',
+				url: "http://127.0.0.1:5000/upload",
+				data: JSON.stringify(data),  //转化字符串 
+				contentType: 'application/json; charset=UTF-8',
+				success: function (data) { //成功的话，得到消息
+					var ads = data
+					console.log("ads: " + ads);
+					var adsLength = ads.length;
+					var oB = new adBox('adcontent');
+					for (var i = 0; i < adsLength; i++) {
+						var x = mxwidth;
+						var y = mxheight;
+						var num=data[i];
+						var ad = new Ball({
+							'x': x,
+							'y': y,
+							'm': 'ad',
+							'n': num,
+						});
+						oB.addBall(ad);
+					}
+				}
+			});
+		};
+		var mxwidth = 180;
+		var mxheight = 30;
+		var ads = new Getad();
+	</script>
+
+</body>
+
+</html>
