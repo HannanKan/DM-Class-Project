@@ -6,11 +6,20 @@
 
 有关数据集的介绍见https://algo.qq.com/public/static/pdf/2018%E8%85%BE%E8%AE%AF%E7%AE%97%E6%B3%95%E5%A4%A7%E8%B5%9B%E5%8F%82%E8%B5%9B%E6%89%8B%E5%86%8C-V4.pdf
 
+
+## demo
+Demo 包括foreground（json语言，demo前端）与endground（Flask框架，demo后端）
+
 ## 代码介绍
 主要代码部分目录如下：  
 
 ```
+## 代码介绍
 .
+├── demo 展示 
+│   ├── foreground（json语言，demo前端）
+│   └──   endground（Flask框架，demo后端）
+│ 
 ├── model
 │   ├── baseline.py（baseline模型代码）
 │   └── model+（改进模型代码，包括特征工程部分，以及模型融合）
